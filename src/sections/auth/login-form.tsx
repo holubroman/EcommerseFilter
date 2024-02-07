@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { LoadingButton } from '@mui/lab';
+import Typography from '@mui/material/Typography';
 
 import { paths } from 'src/routes/paths';
 import { useRouter } from 'src/routes/hooks';
@@ -25,7 +26,9 @@ function LoginForm() {
   const handleSubmit = (values: AuthUserType) => {
     try {
       dispatch(login(values?.email, values?.password));
-      router.push(paths.root);
+      if (!loading && !error) {
+        router.push(paths.root);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -35,10 +38,11 @@ function LoginForm() {
     // @ts-ignore // TODO: fix type
     <FormProvider formName="LoginForm" onSubmit={handleSubmit} validate={validate}>
       <Stack spacing={2}>
+        <Typography variant="h4">Login Wardiere</Typography>
         {error && (<Alert severity="error">{typeof error === 'string' ? error : error.message}</Alert>)}
         <RFTextField name="email" label="Email" type="email" />
         <RFTextField name="password" label="Password" type="password" />
-        <LoadingButton variant="contained" loading={loading} disabled={loading} type="submit">Submit</LoadingButton>
+        <LoadingButton variant="contained" loading={loading} disabled={loading} type="submit">Login</LoadingButton>
       </Stack>
     </FormProvider>
   );
