@@ -1,15 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 
-// import sections from 'src/sections/sect/ion';
+import LoginView from 'src/sections/auth/login-view';
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Product List | Wardiere </title>
+        <title>Login | Wardiere</title>
       </Helmet>
 
-      <p>Product</p>
+      <LoginView />
     </>
   );
 }
