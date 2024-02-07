@@ -17,6 +17,7 @@ const MuiTextField = ({ input, meta, ...rest }: FormTextFieldProps) => (
   <TextField
     {...input}
     {...rest}
+    fullWidth
     error={meta.touched && Boolean(meta.error)}
     helperText={meta.touched && meta.error ? meta.error : null}
   />
