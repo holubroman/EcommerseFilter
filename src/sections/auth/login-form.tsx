@@ -26,9 +26,10 @@ function LoginForm() {
   const handleSubmit = (values: AuthUserType) => {
     try {
       dispatch(login(values?.email, values?.password));
-      if (!loading && !error) {
+      if (!error) {
         router.push(paths.root);
       }
+      console.log(loading, error);
     } catch (err) {
       console.error(err);
     }
@@ -37,12 +38,12 @@ function LoginForm() {
   return (
     // @ts-ignore // TODO: fix type
     <FormProvider formName="LoginForm" onSubmit={handleSubmit} validate={validate}>
-      <Stack spacing={2}>
+      <Stack sx={{minWidth: '400px !important'}} spacing={2}>
         <Typography variant="h4">Login Wardiere</Typography>
         {error && (<Alert severity="error">{typeof error === 'string' ? error : error.message}</Alert>)}
         <RFTextField name="email" label="Email" type="email" />
         <RFTextField name="password" label="Password" type="password" />
-        <LoadingButton variant="contained" loading={loading} disabled={loading} type="submit">Login</LoadingButton>
+        <LoadingButton fullWidth variant="contained" loading={loading} disabled={loading} type="submit">Login</LoadingButton>
       </Stack>
     </FormProvider>
   );
