@@ -10,6 +10,7 @@ export const paths = {
   },
   product: {
     root: '/product',
+    filter: (slug: string, values: string) => `${ROOTS.HOME}product?${slug}=${values}`,
     list: '/product/list',
     detail: '/product/detail',
   },

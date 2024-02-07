@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 
+import Footer from './footer';
 import Header from './header-simple';
 
 // ----------------------------------------------------------------------
@@ -17,17 +18,17 @@ export default function CompactLayout({ children }: Props) {
       <Container component="main">
         <Stack
           sx={{
-            py: 12,
+            pt: 12,
             m: 'auto',
-            maxWidth: 400,
             minHeight: '100vh',
-            textAlign: 'center',
-            justifyContent: 'center',
           }}
         >
           {children}
         </Stack>
+
       </Container>
+
+      <Footer />
     </>
   );
 }
