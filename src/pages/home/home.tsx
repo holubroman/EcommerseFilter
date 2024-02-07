@@ -1,15 +1,15 @@
 import { Helmet } from 'react-helmet-async';
 
-// import sections from 'src/sections/sect/ion';
+import Home from 'src/sections/home';
 
 export default function Page() {
   return (
     <>
       <Helmet>
-        <title> Wardiere | Home </title>
+        <title> Home | Wardiere </title>
       </Helmet>
 
-     <p>Home</p>
+      <Home />
     </>
   );
 }
