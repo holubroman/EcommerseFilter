@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-// import sections from 'src/sections/sect/ion';
+import ProdcutListView from 'src/sections/product/product-list-view';
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
         <title> Product List | Wardiere </title>
       </Helmet>
 
-      <p>Product</p>
+      <ProdcutListView />
     </>
   );
 }
