@@ -20,9 +20,13 @@ export const fetcher = async (args: string | [string, AxiosRequestConfig]) => {
 };
 
 export const endpoints = {
+  category: 'categories',
+  brand: {
+    list: '/rest/v1/api/brand/list',
+  },
   product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+    list: '/rest/v1/product/list',
+    details: '/rest/v1/product/details',
+    search: '/rest/v1/product/search',
   },
 };
