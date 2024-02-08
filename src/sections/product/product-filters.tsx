@@ -259,7 +259,7 @@ export default function ProductFilters({
 
         <Divider />
 
-        <Stack sx={{ px: 2.5, py: 3 }}>
+        <Stack sx={{ px: 2.5, py: 3, overflowY: 'auto', maxHeight: '90vh' }}>
           <Stack spacing={3}>
             {categoriesError &&
               <Typography variant='subtitle1' color="error">

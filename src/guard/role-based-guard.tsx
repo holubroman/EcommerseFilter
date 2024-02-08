@@ -16,13 +16,13 @@ type RoleBasedGuardProp = {
 };
 
 export default function RoleBasedGuard({ hasContent, roles, children, sx }: RoleBasedGuardProp) {
-  const { isAdmin } = useActiveUser()
+  const { isAdmin } = useActiveUser();
 
   const currentRole = isAdmin && isAdmin ? 'admin' : 'user';
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (
-      <Container component={MotionContainer} sx={{ textAlign: 'center', ...sx }}>
+      <Container component={MotionContainer} sx={{ textAlign: 'center', pt: 20, ...sx }}>
         <m.div variants={varBounce().in}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             Permission Denied
