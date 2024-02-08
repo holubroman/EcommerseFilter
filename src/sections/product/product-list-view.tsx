@@ -1,14 +1,21 @@
 import orderBy from 'lodash/orderBy';
 import isEqual from 'lodash/isEqual';
-import { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import { InputAdornment } from '@mui/material';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
+import { paths } from 'src/routes/paths';
+import { useRouter, useSearchParams } from 'src/routes/hooks';
+
 import { useBoolean } from 'src/hooks/use-boolean';
+
+import { selectProducts, fetchProductsAsync } from 'src/store/product.slice';
 
 import Iconify from 'src/components/iconify';
 
@@ -18,9 +25,9 @@ import ProductList from './product-list';
 import ProductSort from './product-sort';
 import ProductFilters from './product-filters';
 import ProductFiltersResult from './product-filters-result';
-import { generateDummyBrands, generateDummyProducts, generateDummyCategories } from './dummyData';
 
 const defaultFilters: IProductFilters = {
+  name: '',
   brands: [],
   categories: [],
   minPrice: 0,
@@ -30,27 +37,34 @@ const defaultFilters: IProductFilters = {
 };
 
 const SORT_OPTIONS = [
-  { value: 'latest', label: 'Latest' },
-  { value: 'oldest', label: 'Oldest' },
+  { value: 'htl', label: 'Price: High to Low' },
+  { value: 'lth', label: 'Price: Low to High' },
 ];
 
 export default function ProdcutListView() {
+  const router = useRouter();
+
+  const dispatch = useDispatch();
+
+  const searchParams = useSearchParams();
+
+  const selectedCategories = searchParams.get('categories') || null;
+  const selectedBrands = searchParams.get('brands') || null;
+
+  const { products, error, status } = useSelector(selectProducts) ?? {};
+
+  useEffect(() => {
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
   const openFilters = useBoolean();
 
-  const _products = generateDummyProducts(50);
-
-  const [sortBy, setSortBy] = useState('latest');
-
-  const [search, setSearch] = useState<{ query: string; results: IProductItem[] }>({
-    query: '',
-    results: [],
-  });
+  const [sortBy, setSortBy] = useState('lth');
 
   const [filters, setFilters] = useState(defaultFilters);
 
   const dataFiltered = applyFilter({
-    inputData: _products,
+    inputData: products,
     filters,
     sortBy,
   });
@@ -66,38 +80,38 @@ export default function ProdcutListView() {
     }));
   }, []);
 
+  const handleFilterName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      handleFilters('name', event.target.value);
+    },
+    [handleFilters],
+  );
+
   const handleResetFilters = useCallback(() => {
     setFilters(defaultFilters);
-  }, []);
+    if (selectedBrands || selectedCategories) {
+      router.push(paths.product.root);
+    }
+    ;
+  }, [router, selectedBrands, selectedCategories]);
 
   const handleSortBy = useCallback((newValue: string) => {
     setSortBy(newValue);
   }, []);
 
-  const handleSearchContacts = useCallback(
-    (inputValue: string) => {
-      setSearch((prevState) => ({
-        ...prevState,
-        query: inputValue,
-      }));
-
-      if (inputValue) {
-        const results = _products.filter((product) =>
-          product.name.toLowerCase().includes(inputValue)
-        );
-
-        setSearch((prevState) => ({
-          ...prevState,
-          results,
-        }));
-      }
-    },
-    [_products]
-  );
+  const handleNavigateCreateProduct = useCallback(() => {
+    router.push(paths.product.create);
+  }, [router]);
 
   const renderEmptyContent = (
     <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ py: 10 }}>
       <Typography variant="h4">No Data</Typography>
+    </Stack>
+  );
+
+  const renderError = (
+    <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ py: 10 }}>
+      <Typography variant="h4">{error || 'Error while fetching products'}</Typography>
     </Stack>
   );
 
@@ -110,8 +124,8 @@ export default function ProdcutListView() {
     >
       <TextField
         fullWidth
-        value={search.query}
-        onChange={(event) => handleSearchContacts(event.target.value)}
+        value={filters.name}
+        onChange={handleFilterName}
         placeholder="Search product..."
         InputProps={{
           startAdornment: (
@@ -133,9 +147,6 @@ export default function ProdcutListView() {
           //
           canReset={canReset}
           onResetFilters={handleResetFilters}
-          //
-          categoryOptions={generateDummyCategories().map((item: any) => item.value)}
-          brandOptions={generateDummyBrands().map((item: any) => item.value)}
         />
 
         <ProductSort sort={sortBy} onSort={handleSortBy} sortOptions={SORT_OPTIONS} />
@@ -157,6 +168,11 @@ export default function ProdcutListView() {
 
   return (
     <Container maxWidth="lg">
+      <Stack>
+        <Button sx={{marginLeft: 'auto'}} onClick={handleNavigateCreateProduct} variant='contained'>
+          Create Product
+        </Button>
+      </Stack>
       <Stack
         spacing={2.5}
         sx={{
@@ -168,9 +184,11 @@ export default function ProdcutListView() {
         {canReset && renderResults}
       </Stack>
 
-      {notFound && renderEmptyContent}
+      {error &&  renderError}
 
-      <ProductList products={dataFiltered} />
+      {!error && notFound && status !== 'loading' && renderEmptyContent}
+
+      <ProductList products={dataFiltered} loading={status === 'loading'} />
     </Container>
   );
 }
@@ -179,30 +197,42 @@ export default function ProdcutListView() {
 const applyFilter = ({ inputData, filters, sortBy }: {
   inputData: IProductItem[]; filters: IProductFilters; sortBy: string;
 }) => {
-  const { brands, categories, minPrice, hasDiscount, maxPrice, inStock } = filters;
+  const { name, brands, categories, minPrice, hasDiscount, maxPrice, inStock } = filters;
 
-  if (sortBy === 'latest') {
-    inputData = orderBy(inputData, ['createdAt'], ['desc']);
+  if (name) {
+    inputData = inputData.filter((product) =>
+      product.name.toLowerCase().indexOf(name.toLowerCase()) !== -1,
+    );
   }
 
-  if (sortBy === 'oldest') {
-    inputData = orderBy(inputData, ['createdAt'], ['asc']);
+  if (sortBy === 'htl') {
+    inputData = orderBy(inputData, ['price'], ['desc']);
+  }
+
+  if (sortBy === 'lth') {
+    inputData = orderBy(inputData, ['price'], ['asc']);
   }
 
   if (brands.length) {
-    inputData = inputData.filter((product) =>
-      product.brands.some((item) => brands.includes(item.value)),
+    inputData = inputData.filter((product) => brands.includes(product.brandValue),
     );
   }
 
   if (categories.length) {
-    inputData = inputData.filter((product) =>
-      product.categories.some((item) => categories.includes(item.value)),
+    inputData = inputData.filter((product) => categories.includes(product.categoryValue),
     );
   }
 
   if (minPrice && maxPrice) {
     inputData = inputData.filter((product) => product.price >= minPrice && product.price <= maxPrice);
+  }
+
+  if (minPrice && !maxPrice) {
+    inputData = inputData.filter((product) => product.price >= minPrice);
+  }
+
+  if (maxPrice && !minPrice) {
+    inputData = inputData.filter((product) => product.price <= maxPrice);
   }
 
   if (inStock) {

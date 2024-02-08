@@ -5,9 +5,6 @@ import Stack from '@mui/material/Stack';
 import { LoadingButton } from '@mui/lab';
 import Typography from '@mui/material/Typography';
 
-import { paths } from 'src/routes/paths';
-import { useRouter } from 'src/routes/hooks';
-
 import { login } from 'src/store/auth.slice';
 import { AuthUserType } from 'src/store/types';
 
@@ -19,17 +16,11 @@ import { validate } from './validate';
 function LoginForm() {
   const { loading, error } = useSelector((state: AuthUserType) => state?.auth);
 
-  const router = useRouter();
-
   const dispatch = useDispatch();
 
   const handleSubmit = (values: AuthUserType) => {
     try {
       dispatch(login(values?.email, values?.password));
-      if (!error) {
-        router.push(paths.root);
-      }
-      console.log(loading, error);
     } catch (err) {
       console.error(err);
     }

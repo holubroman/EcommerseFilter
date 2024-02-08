@@ -1,6 +1,7 @@
 export type IProductFilterValue = string | string[] | number | boolean;
 
 export type IProductFilters = {
+  name: string;
   inStock: boolean;
   brands: string[];
   hasDiscount: boolean;
@@ -26,6 +27,8 @@ export type IProductItem = {
   stock: number;
   price: number;
   discount: number;
+  brandValue: string;
+  categoryValue: string;
   brands: IProductBrands[];
   categories: IProductCategory[];
 };

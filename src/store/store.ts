@@ -1,19 +1,20 @@
-import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { reducer as reduxFormReducer } from 'redux-form';
 
 import authReducer from './auth.slice';
+import brandReducer from './brand.slice';
+import productReducer from './product.slice';
+import categoryReducer from './category.slice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    categories: authReducer,
-    products: authReducer,
-    form: reduxFormReducer
+    form: reduxFormReducer,
+    products: productReducer,
+    categories: categoryReducer,
+    brands: brandReducer,
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
+
 

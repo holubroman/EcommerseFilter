@@ -12,9 +12,12 @@ const initialState: AuthStateType = {
 
 export const _initialize = createAsyncThunk('/init', async () => {
   const { data, error } = await supabase.auth.getSession();
-  if (error) throw new Error(error.message);
+  if (error){
+    localStorage.removeItem('accessToken');
+    throw new Error(error.message);
+  }
   const accessToken = localStorage.getItem('accessToken') || null;
-  if(!accessToken) window.location.reload();
+  if (!accessToken) window.location.reload();
   return data;
 });
 

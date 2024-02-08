@@ -1,10 +1,9 @@
 import { m } from 'framer-motion';
 
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { Theme, SxProps } from '@mui/material/styles';
-
-import { ForbiddenIllustration } from 'src/assets/illustrations';
 
 import { useActiveUser } from '../hooks/use-user';
 import { varBounce, MotionContainer } from '../sections/error/animate';
@@ -37,12 +36,9 @@ export default function RoleBasedGuard({ hasContent, roles, children, sx }: Role
         </m.div>
 
         <m.div variants={varBounce().in}>
-          <ForbiddenIllustration
-            sx={{
-              height: 260,
-              my: { xs: 5, sm: 10 },
-            }}
-          />
+          <Button variant="contained" href="/" sx={{ mt: 5 }}>
+            Back Home
+          </Button>
         </m.div>
       </Container>
     ) : null;
