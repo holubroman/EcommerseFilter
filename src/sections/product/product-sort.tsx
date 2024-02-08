@@ -53,7 +53,7 @@ export default function ProductSort({ sort, onSort, sortOptions }: Props) {
             textTransform: 'capitalize',
           }}
         >
-          {sort}
+          {sortOptions.find((option) => option.value === sort)?.label}
         </Box>
       </Button>
 
@@ -65,7 +65,7 @@ export default function ProductSort({ sort, onSort, sortOptions }: Props) {
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
-        }} sx={{ width: 140 }}>
+        }}>
         {sortOptions.map((option) => (
           <MenuItem
             key={option.value}

@@ -9,8 +9,6 @@ export function useActiveUser() {
 
   const parsedUser = typeof activeUser === 'string' ? JSON.parse(activeUser): activeUser;
 
-  console.log(parsedUser);
-
   const isAdmin = parsedUser?.user?.email.includes('admin');
   const isUser = parsedUser?.user?.email.includes('user');
   const displayName = parsedUser?.user?.email.split('@')[0];

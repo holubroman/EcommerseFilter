@@ -21,9 +21,9 @@ export const mainRoutes = [
     children: [
       { element: <IndexPage />, index: true },
       { path: '/product', element: <ProductList /> },
-      { path: '403', element: <Page403 /> },
-      { path: '404', element: <Page404 /> },
-      { path: '500', element: <Page500 /> },
+      { path: '/403', element: <Page403 /> },
+      { path: '/404', element: <Page404 /> },
+      { path: '/500', element: <Page500 /> },
     ],
   },
 ];
