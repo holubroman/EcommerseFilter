@@ -11,7 +11,6 @@ import { paths } from 'src/routes/paths';
 import { RouterLink } from 'src/routes/components';
 
 import { useActiveUser } from 'src/hooks/use-user';
-import { useOffSetTop } from 'src/hooks/use-off-set-top';
 
 import { bgBlur } from 'src/theme/css';
 import { logout } from 'src/store/auth.slice';
@@ -22,16 +21,12 @@ import Logo from 'src/components/logo';
 import { HEADER } from '../config-layout';
 import Label from '../../components/label';
 
-// ----------------------------------------------------------------------
-
 export default function HeaderSimple() {
   const theme = useTheme();
 
   const { authenticated, isAdmin } = useActiveUser();
 
   const dispatch = useDispatch();
-
-  const offsetTop = useOffSetTop(HEADER.H_DESKTOP);
 
   const renderHeader = (
     <Label variant="soft" color={(isAdmin && 'info') || 'default'}>
@@ -53,13 +48,8 @@ export default function HeaderSimple() {
             duration: theme.transitions.duration.shorter,
           }),
           boxShadow: customShadows().z1,
-          ...(offsetTop && {
             ...bgBlur({
               color: theme.palette.background.paper,
-            }),
-            height: {
-              md: HEADER.H_DESKTOP_OFFSET,
-            },
           }),
         }}
       >

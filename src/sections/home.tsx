@@ -123,6 +123,7 @@ const dispatch = useDispatch();
         src={slider}
         sx={{
           objectFit: 'contain',
+          boxShadow: 2,
           borderRadius: 2,
           width: 'calc(100%)',
           height: 'auto',

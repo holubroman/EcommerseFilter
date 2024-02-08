@@ -13,12 +13,17 @@ export default function Page() {
         <title> Product Create | Wardiere </title>
       </Helmet>
 
-      <Stack height={500} justifyContent="center" alignItems="center">
+      <Stack
+        height={500}
+        justifyContent="center"
+        alignItems="center"
+        sx={{ bgcolor: 'white', py: 5, boxShadow: 2, borderRadius: 2 }}
+      >
         <Typography variant="h4" gutterBottom>
           Create Product Page
         </Typography>
-        <Typography variant="h6" gutterBottom>
-          Admin Only
+        <Typography variant="body2" gutterBottom>
+          This page is designed for admin users only
         </Typography>
         <Button variant="contained" href="/" sx={{ mt: 5 }}>
           Back Home
