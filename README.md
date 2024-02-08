@@ -1,21 +1,29 @@
 This is a React project bootstrapped with vitejs.
 
--      if you want to see. [Demo](https://wardiere.unluer.tech)
--      All assets prepared by using Canva. If you believe your license is involved, please contact me at [ensunluer@gmail.com](mailto:ensunluer@gmail.com).
--      This codebase is constructed using the Mui template
+if you want to see [Demo](https://wardiere.unluer.tech).
+
+All assets prepared by using Canva. If you believe your license is involved, please contact me at [ensunluer@gmail.com](mailto:ensunluer@gmail.com).
+
+This codebase is constructed using the Mui template
+
+**ENV**
+```markdown
+VITE_HOST_API=YOUR_API_URL
+VITE_SUPABASE_URL=YOUR_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+```
 
 **Login demo**
 
 ```markdown
  // If you want to access the demo server as a user,
- email: user@user.com
- password: Uu123456
+email: user@user.com
+password: Uu123456
 ```
 
 **Getting Started**
 
 First, run the development server:
-
 
 **Using yarn (recommended)**
 
@@ -33,8 +41,6 @@ yarn build
 localhost://8081
 ```
 
-
-
 **Using docker container**
 
 ```markdown
@@ -44,6 +50,7 @@ make start
 //work on
 localhost://9802:8081
 ```
+
 
 
 

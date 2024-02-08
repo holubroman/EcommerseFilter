@@ -104,8 +104,8 @@ export default function ProdcutListView() {
   }, [router]);
 
   const renderEmptyContent = (
-    <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ py: 10 }}>
-      <Typography variant="h4">No Data</Typography>
+    <Stack spacing={2} justifyContent="center" alignItems="center" sx={{ py: 10, bgcolor: 'white', boxShadow: 2, borderRadius: 2 }}>
+      <Typography color='primary' variant="subtitle1">No products were found according to the relevant search criteria.</Typography>
     </Stack>
   );
 
