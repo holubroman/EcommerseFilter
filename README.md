@@ -17,8 +17,8 @@ VITE_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 
 ```markdown
  // If you want to access the demo server as a user,
-email: user@user.com
-password: Uu123456
+email: user@user.com || test@admin.com
+password: Uu123456 || Ta123456
 ```
 
 **Getting Started**
