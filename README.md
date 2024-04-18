@@ -2,8 +2,6 @@ This is a React project bootstrapped with vitejs.
 
 if you want to see [Demo](https://wardiere.unluer.tech).
 
-All assets prepared by using Canva. If you believe your license is involved, please contact me at [ensunluer@gmail.com](mailto:ensunluer@gmail.com).
-
 This codebase is constructed using the Mui template
 
 **ENV**
